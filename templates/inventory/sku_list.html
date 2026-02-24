@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory – Pantry{% endblock %}
+
+{% block content %}
+<h2>Inventory</h2>
+
+<div class="actions">
+  <a href="{% url 'inventory:sku-create' %}" class="btn btn-primary">+ Add item</a>
+</div>
+
+{% if skus %}
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Unit</th>
+        <th>Barcode</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sku in skus %}
+      <tr>
+        <td>{{ sku.name }}</td>
+        <td>{{ sku.category|default:"–" }}</td>
+        <td>{{ sku.unit|default:"–" }}</td>
+        <td>{{ sku.barcode|default:"–" }}</td>
+        <td>
+          <a href="{% url 'inventory:sku-update' sku.pk %}" class="btn btn-secondary">Edit</a>
+          <a href="{% url 'inventory:sku-delete' sku.pk %}" class="btn btn-danger">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty">No items yet. Add one above.</p>
+{% endif %}
+{% endblock %}
